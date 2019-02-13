@@ -58,7 +58,7 @@ def suggest_next(word, counts, num_suggestions=5):
 	return result[:num_suggestions]
 
 
-# The function below is a slightly more efficeint version of suggest_next that
+# The function below is a slightly more efficient version of suggest_next that
 # stops searching the list as soon as it finds num_suggestions matches.
 #
 # def suggest_next(word, counts, num_suggestions=5):
