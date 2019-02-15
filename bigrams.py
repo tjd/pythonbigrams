@@ -72,15 +72,35 @@ def suggest_next(word, counts, num_suggestions=5):
 # 	return result
 
 # Shows most popular suggestions (and their counts) for word w.
-def report_info(w):
+# counts is a sorted list of (count, bigram) pairs
+def report_info(w, counts):
 	# get all the bigrams that start with w
-	w_total = num_start_with(w, sorted_counts)
-	w_pairs = suggest_next(w, sorted_counts)
+	w_total = num_start_with(w, counts)
+	w_pairs = suggest_next(w, counts)
 	print(f'\n{w_total} bigrams start with "{w}"')
 
 	# show bigrams that start with w, most frequent first
 	for (c, bg) in w_pairs:
 		print(f'{bg[0]} {bg[1]} ({100*c/w_total:.1f}%, {c})')
+
+# Returns the word that appears most frequently after w.
+# counts is a sorted list of (count, bigram) pairs
+def get_most_freq_after(w, counts):
+	for (c, bg) in counts:
+		if bg[0] == w:
+			return bg[1]
+	return ''
+
+# Returns sequence of most likely words beginning with start_word.
+# counts is a sorted list of (count, bigram) pairs
+def word_sequence(start_word, counts, length=5):
+	result = [start_word]
+	w = start_word
+	for i in range(length):
+		next_word = get_most_freq_after(w, counts)
+		result.append(next_word)
+		w = next_word
+	return result
 
 if __name__ == '__main__':
 	fname = 'bill_complete.txt'
@@ -97,7 +117,8 @@ if __name__ == '__main__':
 	sorted_counts = sort_bigram_counts(bg_count)
 	print('... done sorting')
 
-	# look at suggestions for a few words
-	test_words = 'i why who good happy sad bad evil king queen god man woman romeo juliet'.split()
+	# # look at suggestions for a few words
+	test_words = 'i why who good happy love hate sad bad evil king queen god man woman romeo juliet'.split()
 	for w in test_words:
-		report_info(w)
+		print(word_sequence(w, sorted_counts))
+		# report_info(w, sorted_counts)
