@@ -102,6 +102,32 @@ def word_sequence(start_word, counts, length=5):
 		w = next_word
 	return result
 
+# counts is a sorted list of (count, bigram) pairs
+def interact(counts):
+	print()
+	print('Commands:')
+	print('   info <word>  # show most frequent next words')
+	print('   seq <word>   # sequence of 5 most frequent words')
+	print('   quit         # end the session')
+	print()
+	while True:
+		terms = input('--> ').strip().lower().split(' ')
+		n = len(terms)
+		if n == 0 or n > 2:
+			print(f'invalid command: {terms}')
+		elif n == 1:
+			if terms[0] == 'quit':
+				return
+			else:
+				print(f'unknown command: {terms[0]}')
+		else: # n == 2
+			if terms[0] == 'info':
+				report_info(terms[1], counts)
+			elif terms[0] == 'seq':
+				print(' '.join(word_sequence(terms[1], sorted_counts)))
+			else:
+				print(f'unknown command: {terms[0]}')
+
 if __name__ == '__main__':
 	fname = 'bill_complete.txt'
 	words = get_words(fname)
@@ -117,8 +143,10 @@ if __name__ == '__main__':
 	sorted_counts = sort_bigram_counts(bg_count)
 	print('... done sorting')
 
-	# # look at suggestions for a few words
-	test_words = 'i why who good happy love hate sad bad evil king queen god man woman romeo juliet'.split()
-	for w in test_words:
-		print(word_sequence(w, sorted_counts))
-		# report_info(w, sorted_counts)
+	interact(sorted_counts)
+
+	# # # look at suggestions for a few words
+	# test_words = 'i why who good happy love hate sad bad evil king queen god man woman romeo juliet'.split()
+	# for w in test_words:
+	# 	print(word_sequence(w, sorted_counts))
+	# 	# report_info(w, sorted_counts)
