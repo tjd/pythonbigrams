@@ -77,7 +77,7 @@ def report_info(w, counts):
 	# get all the bigrams that start with w
 	w_total = num_start_with(w, counts)
 	w_pairs = suggest_next(w, counts)
-	print(f'\n{w_total} bigrams start with "{w}"')
+	print(f'{w_total} bigrams start with "{w}"')
 
 	# show bigrams that start with w, most frequent first
 	for (c, bg) in w_pairs:
@@ -92,6 +92,7 @@ def get_most_freq_after(w, counts):
 	return ''
 
 # Returns sequence of most likely words beginning with start_word.
+# Can result in some amusing sentences.
 # counts is a sorted list of (count, bigram) pairs
 def word_sequence(start_word, counts, length=5):
 	result = [start_word]
@@ -102,6 +103,23 @@ def word_sequence(start_word, counts, length=5):
 		w = next_word
 	return result
 
+# Provides a simple interactive way to get information about bigrams.
+# 
+# e.g. 
+# --> info tooth
+# 13 bigrams start with "tooth"
+# tooth on (15.4%, 2)
+# tooth of (15.4%, 2)
+# tooth is (15.4%, 2)
+# tooth in (15.4%, 2)
+# tooth will (7.7%, 1)
+# --> seq tooth
+# tooth on the king henry. i
+# --> seq crown 
+# crown of the king henry. i
+# --> seq swim
+# swim like a man of the
+#
 # counts is a sorted list of (count, bigram) pairs
 def interact(counts):
 	print()
