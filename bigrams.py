@@ -9,7 +9,7 @@
 # we can suggest as the next word the second word in the most frequent bigram
 # starting with 'I'.
 #
-# THis program was written to be as easy to understand as possible. It's *not*
+# This program was written to be as easy to understand as possible. It's *not*
 # particularly efficient, and could be sped up and improved in many ways.
 #
 
